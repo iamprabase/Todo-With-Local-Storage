@@ -1,20 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
+import { TodoContext } from './contexts/TodoContext'
 
-export default function Form({ todos, settodos }) {
-  const [todo, settodo] = useState("");
-
-  const handleChange = (e) => {
-    settodo(e.target.value);
-  }
-
-  const handleSubmit = (e) => {
-    if (todo.trim()) {
-      settodos([
-        ...todos, { 'title': todo, 'completed': false, 'id': Math.random() * 9 }
-      ]);
-      settodo("");
-    }
-  }
+export default function Form() {
+  const { todo, handleChange, handleSubmit } = useContext(TodoContext);
 
   return (
     <>
@@ -25,11 +13,12 @@ export default function Form({ todos, settodos }) {
               <div className="main-todo-input-item">
                 <input
                   onChange={handleChange}
-                  value={todo}
+                  value={todo.title}
                   type="text"
                   id="todo-list-item"
                   placeholder="What will you do today?"
                 />
+                <input type="hidden" value={todo.id}/>
               </div>
               <button
                 onClick={handleSubmit}

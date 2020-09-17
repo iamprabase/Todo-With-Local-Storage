@@ -1,44 +1,35 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import {TodoContext} from './contexts/TodoContext';
 
-export default function TodoItem({ todo, todos, settodos }) {
-
-  const markCompleted = (e) => {
-    settodos(
-      todos.map(current => {
-        if (current.id === todo.id) return {
-          ...current, completed : !current.completed
-        }
-
-        return {...current};
-      })
-    );
-  } 
-
-  const deleteTodo = (e) => {
-    settodos(todos.filter(current => current.id !== todo.id));
-  }
-
-  const editTodo = (e) => {
-    console.log("Edit");
-  }
+export default function TodoItem({ currentTodo }) {
+  const { markCompleted, deleteTodo, editTodo } = useContext(TodoContext);
 
   return (
     <>
-      <li key={todo.id}>
+      <li key={currentTodo.id}>
         <input
-          onChange={markCompleted}
+          onChange={() => {markCompleted(currentTodo)}}
+          data-key={currentTodo.id}
           className="checkbox"
           type="checkbox"
-          checked={todo.completed}
+          checked={currentTodo.completed}
         />
-        <span className={`todo-text ${todo.completed ? "completed" : ""}`}>
+        <span
+          className={`todo-text ${currentTodo.completed ? "completed" : ""}`}
+        >
           {" "}
-          {todo.title}
+          {currentTodo.title}
         </span>
-        <button onClick={deleteTodo} className="remove text-right">
+        <button
+          onClick={() => {deleteTodo(currentTodo)}}
+          className="remove text-right"
+        >
           <i className="fa fa-trash"></i>
         </button>
-        <button onClick={editTodo} className="edit text-right">
+        <button
+          onClick={() => {editTodo(currentTodo)}}
+          className="edit text-right"
+        >
           <i className="fa fa-edit"></i>
         </button>
         <hr />

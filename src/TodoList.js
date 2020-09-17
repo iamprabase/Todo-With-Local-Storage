@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import TodoItem from './TodoItem'
+import { TodoContext } from './contexts/TodoContext'
 
-export default function TodoList({ todos, settodos }) {
+export default function TodoList() {
+  const { todos } = useContext(TodoContext);
+
   return (
     <>
       <div className="row">
@@ -9,9 +12,9 @@ export default function TodoList({ todos, settodos }) {
           <div className="main-todo-input-wrap">
             <div className="main-todo-input fl-wrap todo-listing">
               <ul className="list-items">
-                {todos.length > 0 && todos.map(todo => {
+                {todos.length > 0 && todos.map(currentTodo => {
                   return (
-                    <TodoItem todo={todo} todos={todos} settodos={settodos} key={todo.id} />
+                    <TodoItem currentTodo={currentTodo} key={currentTodo.id} />
                   );
                 })}
               </ul>
